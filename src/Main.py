@@ -20,6 +20,9 @@ def process_csv(file_path):
         print(f"Error reading the CSV file: {e}")
         return
 
+    # Contador de personas encuestadas 
+    print(f"Total de personas encuestadas: {len(df)}")
+
     # Limpia los nombres de las columnas:
     # elimina retornos de carro, saltos de línea y espacios en blanco
     df.columns = [str(col).replace('\r', '').replace('\n', '').strip() for col in df.columns]
@@ -43,7 +46,7 @@ def process_csv(file_path):
 
     print(f"Loaded '{file_path}' successfully.")
     print(f"Found {len(numeric_df.columns)} numeric variables to analyze.")
-    print("--- Statistical Analysis ---")
+    print("--- Variables cuantitativas ---")
 
     # Crea un directorio de salida para guardar los boxplots
     # El nombre de la carpeta se forma con el nombre base del CSV + "_plots"
@@ -61,55 +64,55 @@ def process_csv(file_path):
 
         # Si después de eliminar nulos no quedan datos válidos, se omite la columna
         if col_data.empty:
-            print("  No valid data available.")
+            print("  No hay datos disponibles.")
             continue
 
         # Media aritmética
         mean = col_data.mean()
-        print(f"  Arithmetic mean:           {mean:.4f}")
+        print(f"  Media Aritmética:            {mean:.4f}")
 
         # Mediana
         median = col_data.median()
-        print(f"  Median:                    {median:.4f}")
+        print(f"  Mediana:                    {median:.4f}")
 
         # Moda
         mode_series = col_data.mode()
         if not mode_series.empty:
             modes = ", ".join([f"{m:.4f}" for m in mode_series])
-            print(f"  Mode:                      {modes}")
+            print(f"  Moda:                      {modes}")
         else:
-            print("  Mode:                      None")
+            print("  Moda:                      N/A")
 
         # Varianza muestral
         # pandas usa ddof=1 por defecto, lo cual corresponde a varianza muestral
         variance = col_data.var()
-        print(f"  Sample variance:           {variance:.4f}")
+        print(f"  Varianza muestral:           {variance:.4f}")
 
         # Desviación estándar muestral
         std_dev = col_data.std()
-        print(f"  Standard deviation:        {std_dev:.4f}")
+        print(f"  Desviación estándar:        {std_dev:.4f}")
 
         # Coeficiente de variación
         # Se valida que la media no sea 0 para evitar división por cero
         if mean != 0:
             cv = (std_dev / mean) * 100
-            print(f"  Coefficient of variation:  {cv:.4f}%")
+            print(f"  Coeficiente de variación:   {cv:.4f}%")
         else:
-            print("  Coefficient of variation:  Undefined (mean is 0)")
+            print("  Coeficiente de variación:   Indefinido (La media es igual a 0)")
 
         # Curtosis
         # Mide el grado de concentración de los datos en comparación con una distribución normal
         kurtosis = col_data.kurtosis()
         if pd.isna(kurtosis):
-            print("  Coefficient of kurtosis:   Not enough data")
+            print("  Coeficiente de kurtosis:    Not enough data")
         else:
-            print(f"  Coefficient of kurtosis:   {kurtosis:.4f}")
+            print(f"  Coeficiente de kurtosis:    {kurtosis:.4f}")
 
         # Generación del boxplot
         plt.figure(figsize=(6, 4))
         plt.boxplot(col_data, vert=False, patch_artist=True)
-        plt.title(f'Box Plot of {column}')
-        plt.xlabel('Values')
+        plt.title(f'Box Plot de {column}')
+        plt.xlabel('Valores')
 
         # Limpia el nombre de la columna para usarlo de forma segura como nombre de archivo
         safe_col_name = "".join([c if c.isalnum() else "_" for c in str(column)])
@@ -120,7 +123,7 @@ def process_csv(file_path):
         plt.savefig(plot_filename)
         plt.close()
 
-        print(f"  Box plot saved to:         {plot_filename}")
+        print(f"  Box plot guardado en:         {plot_filename}")
 
         # Nota:
         # La generación de gráficos de frecuencia fue eliminada según la solicitud original
@@ -129,7 +132,7 @@ def process_csv(file_path):
     categorical_df = df.select_dtypes(exclude=[np.number])
 
     if not categorical_df.empty:
-        print("\n--- Categorical Analysis ---")
+        print("\n--- Variables cualitativas ---")
 
         for column in categorical_df.columns:
             print(f"\n[{column}]")
@@ -138,26 +141,26 @@ def process_csv(file_path):
             col_data = categorical_df[column].dropna()
 
             if col_data.empty:
-                print("  No valid data available.")
+                print("  No hay datos disponibles.")
                 continue
 
             # Moda de la variable categórica
             mode_series = col_data.mode()
             if not mode_series.empty:
                 modes = ", ".join([str(m) for m in mode_series])
-                print(f"  Mode:                      {modes}")
+                print(f"  Moda:                      {modes}")
             else:
-                print("  Mode:                      None")
+                print("  Moda:                      N/A")
 
             # Frecuencias absolutas
             value_counts = col_data.value_counts()
-            print("  Frequencies:")
+            print("  Frecuencias:")
             for val, count in value_counts.items():
-                print(f"    {val}: {count}")
+                print(f"    {val}: n_i = {count} / h_i = {round(count/len(df),2)}")
 
 
 # Construye la ruta del archivo CSV a procesar
-path = os.path.join("data", "test_dataset.csv")
+path = os.path.join("data", "dataset.csv")
 
 # Llama a la función principal para procesar el archivo
 process_csv(path)
