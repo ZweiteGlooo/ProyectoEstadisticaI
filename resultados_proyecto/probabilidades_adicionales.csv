@@ -1,0 +1,10 @@
+﻿Tipo,Evento,Probabilidad,Porcentaje
+Complementaria,P(uso riesgoso),0.53,53.0
+Complementaria,P(no uso riesgoso),0.47,47.0
+Conjunta,P(copia y pega y promedio <= 3.8),0.08,8.0
+Conjunta,P(nunca verifica y promedio <= 3.8),0.08,8.0
+Conjunta,P(uso en 7+ trabajos y dependencia alta),0.22,22.0
+Condicional inversa,P(copia y pega | promedio <= 3.8),0.4211,42.11
+Condicional inversa,P(nunca verifica | promedio <= 3.8),0.4211,42.11
+Binomial,P(exactamente 3 de 5 con uso riesgoso),0.3289,32.89
+Binomial,P(al menos 3 de 5 con uso riesgoso),0.5561,55.61

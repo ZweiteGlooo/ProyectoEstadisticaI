@@ -1,0 +1,9 @@
+﻿Tema,Cálculo,Resultado
+Conteo,Regla del producto,72.0
+Conteo,"C(8, 3)",56.0
+Conteo,"P(8, 3)",336.0
+Bayes,P(copia y pega | promedio <= 3.8),0.4211
+Bayes,P(nunca verifica | promedio <= 3.8),0.4211
+Hipergeométrica,P(X=3) en n=5 sin reemplazo,0.3364
+Poisson,"P(X=3), lambda=2.65",0.2191
+Condicional,P(uso riesgoso | dependencia alta),0.9583

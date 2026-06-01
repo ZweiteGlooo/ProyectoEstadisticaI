@@ -1,0 +1,2 @@
+La variable con mayor dispersión relativa fue '¿Hace cuántos meses aproximadamente empezaste a usar IA generativa para tus estudios? (Ponga su respuesta en números enteros, por favor)', lo cual indica diferencias importantes entre los estudiantes.
+Las tablas y gráficos generados permiten sustentar los resultados descriptivos solicitados en la rúbrica.
